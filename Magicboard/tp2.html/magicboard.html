@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kid-Friendly Magic Board</title>
+    <style>
+        #blackBtn {
+            background: black;
+            color: white;
+        }
+       
+        #pinkBtn {
+            background: pink;
+            color: white;
+        }
+        
+        #orangeBtn {
+            background: orange;
+            color: white;
+        }
+        
+        #brownBtn {
+            background: brown;
+            color: white;
+        }
+        
+        #purpleBtn {
+            background: purple;
+            color: white;
+        }
+
+        #redBtn {
+            background: red;
+            color: white;
+        }
+
+        #greenBtn {
+            background: green;
+            color: white;
+        }
+
+        #blueBtn {
+            background: blue;
+            color: white;
+        }
+
+        #yellowBtn {
+            background: yellow;
+            color: black;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 1rem;
+            height: 70px;
+            width: 88px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        body {
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            background: url('back.gif') no-repeat center center fixed;
+            background-size:contain;
+            color: #fff;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            justify-content: center;
+        }
+
+        .container {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .shapes, .actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+          /*  display: flex;*/
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .colors {
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        button, input[type="range"] {
+            padding: 10px;
+            font-size: 1rem;
+            height: 70px;
+            width: 88px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background: #fff;
+            color: black;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #0dce5036;
+        }
+
+        .shape-btn {
+            background: #ffffff91;
+            color: black;
+            width: 100px;
+            height: 100px;
+        }
+
+        .shape-btn:hover {
+            background: #0dce5036;
+        }
+
+        #magicBoard {
+            border: 3px solid #060505;
+            border-radius: 10px;
+            background: #f7f7f7d0;
+            cursor: crosshair;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .slider-icon {
+            width: 30px; 
+            height: 30px; 
+        } 
+
+        #opacitySelect, #thicknessSelect {
+            width: 150px; 
+            height: 8px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #ddd;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        #opacitySelect::-webkit-slider-thumb,
+        #thicknessSelect::-webkit-slider-thumb {
+            width: 15px;
+            height: 15px;
+            background: #333;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .share-panel {
+            position: fixed;
+            top: 0;
+            right: -340px; 
+            width: 300px;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            transition: right 0.5s ease;
+            padding: 20px;
+            box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .share-panel.open {
+            right: 0; 
+        }
+
+        .share-panel button {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 0px; 
+            background: #ff3b30; 
+            color: white;
+            border: solid; 
+            padding: 5px 25px; 
+            font-size: 18px; 
+            cursor: pointer;
+            transition: background 0.3s; 
+        }
+
+        .close-btn:hover {
+            background: #060505; 
+        }
+
+        .close-btn:focus {
+            outline: none; 
+        }
+
+        .backgrounds {
+            display: flex;
+            flex-direction: row;
+            gap: 5px;  
+            padding: 5px;  
+            border-radius: 10px;  
+            margin-top: 20px;  
+            width: 100%;  
+            max-width: 610px;  
+            margin: 10 auto;  
+            justify-content: center;
+        }
+
+        .backgrounds button {
+            padding: 12px 12px; 
+            height: 160px;
+            min-width: 200px;  
+            border: 1px solid black;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            box-sizing: border-box; 
+        }
+
+        .backgrounds button:hover {
+            background: #ddd; 
+        }
+
+    </style>
+</head>
+<body>
+    <div class="colors">
+        <button id="blackBtn"></button>
+        <button id="whiteBtn"></button>
+        <button id="brownBtn"></button>
+        <button id="orangeBtn"></button>
+        <button id="purpleBtn"></button>
+        <button id="pinkBtn"></button>
+        <button id="redBtn"></button>
+        <button id="greenBtn"></button>
+        <button id="blueBtn"></button>
+        <button id="yellowBtn"></button>
+        <div class="slider-container">
+            <img src="/tp2.html/opacity.png" alt="Opacity Icon" class="slider-icon">
+            <input type="range" id="opacitySelect" min="0.1" max="1" step="0.1" value="1" title="Opacity">
+        </div>
+        
+        <div class="slider-container">
+            <img src="/tp2.html/thick.png" alt="Thickness Icon" class="slider-icon">
+            <input type="range" id="thicknessSelect" min="1" max="10" step="1" value="2" title="Thickness">
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="shapes">
+            <button id="pencilBtn" class="shape-btn">
+                <img src="/tp2.html/pen.png" alt="Pencil" width="50" height="50">
+            </button>            
+            <button id="lineBtn" class="shape-btn">
+                <img src="/tp2.html/line.png" alt="Line" width="50" height="50">
+            </button>
+            <button id="rectangleBtn" class="shape-btn">
+                <img src="/tp2.html/rectangle.png" alt="Rectangle" width="50" height="50">
+            </button>
+            <button id="circleBtn" class="shape-btn">
+                <img src="/tp2.html/circle.png" alt="Circle" width="50" height="50">
+            </button>
+            <button id="heartBtn" class="shape-btn">
+                <img src="/tp2.html/heart.png" alt="Heart" width="50" height="50">
+            </button>
+            <button id="starBtn" class="shape-btn">
+                <img src="/tp2.html/star.png" alt="Star" width="50" height="50">
+            </button>
+            <button id="kiteBtn" class="shape-btn">
+                <img src="/tp2.html/kite.png" alt="Kite" width="50" height="50">
+            </button>
+            <button id="arrowBtn" class="shape-btn">
+                <img src="/tp2.html/arrow.png" alt="Arrow" width="50" height="50">
+            </button>
+        </div>
+
+        <canvas id="magicBoard" width="1100" height="590"></canvas>
+
+        <div class="actions">
+            <button id="undoBtn" class="shape-btn">
+                <img src="/tp2.html/undo.png" alt="Undo" width="50" height="50">
+            </button>
+            
+            <button id="redoBtn" class="shape-btn">
+                <img src="/tp2.html/redo.png" alt="Redo" width="50" height="50">
+            </button>
+            
+            <button id="eraserBtn" class="shape-btn">
+                <img src="/tp2.html/eraser.png" alt="Eraser" width="50" height="50">
+            </button>                   
+
+            <button id="deleteAllBtn" class="shape-btn">
+                <img src="/tp2.html/deleteall.png" alt="Clear All" width="50" height="50">
+            </button>
+            
+            <button id="saveBtn" class="shape-btn">
+                <img src="/tp2.html/save.png" alt="Save" width="50" height="50">
+            </button>
+            
+            <button id="shareBtn" class="shape-btn">
+                <img src="/tp2.html/share.png" alt="Share" width="50" height="50">
+            </button>
+            
+        </div>
+
+    </div>
+
+    <div class="backgrounds">
+        <button id="background1Btn">
+            <img src="/tp2.html/white.jfif" alt="Background 1" width="100%" height="100%">
+        </button>
+        <button id="background2Btn">
+            <img src="/tp2.html/bg2.jpg" alt="Background 2" width="100%" height="50">
+        </button>
+        <button id="background3Btn">
+            <img src="/tp2.html/bg3.jpg" alt="Background 3" width="100%" height="100%">
+        </button>
+    </div>
+
+    <!-- Share Panel -->
+    <div id="sharePanel" class="share-panel">
+        <button class="close-btn" id="closeShareBtn">X</button>
+        <br>
+        <br>
+        <br>
+        <h3>Share Your Drawing!</h3>
+        <p>Click below to share your drawing:</p>
+        <button id="emailShareBtn">Share via Email</button>
+        <button id="linkShareBtn">Copy Link</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById("magicBoard");
+        const ctx = canvas.getContext("2d");
+    
+        let shapes = [];
+        let undoneShapes = [];
+        let currentShape = "line";
+        let currentColor = "black";
+        let currentOpacity = 1;
+        let currentThickness = 2;
+        let startX, startY, isDrawing = false;
+        let isFreehandDrawing = false;
+    
+        // Shape selection buttons
+        document.getElementById("lineBtn").addEventListener("click", () => {
+            currentShape = "line";
+        });
+        document.getElementById("rectangleBtn").addEventListener("click", () => {
+            currentShape = "rectangle";
+        });
+        document.getElementById("circleBtn").addEventListener("click", () => {
+            currentShape = "circle";
+        });
+        document.getElementById("pencilBtn").addEventListener("click", () => {
+            currentShape = "pencil";
+        });
+        document.getElementById("heartBtn").addEventListener("click", () => {
+            currentShape = "heart";
+        });
+        document.getElementById("starBtn").addEventListener("click", () => {
+            currentShape = "star";
+        });
+        document.getElementById("kiteBtn").addEventListener("click", () => {
+            currentShape = "kite";
+        });
+        document.getElementById("arrowBtn").addEventListener("click", () => {
+            currentShape = "arrow";
+        });
+
+        // Color selection buttons
+        document.getElementById("blackBtn").addEventListener("click", () => { currentColor = "black"; });
+        document.getElementById("pinkBtn").addEventListener("click", () => { currentColor = "pink"; });
+        document.getElementById("whiteBtn").addEventListener("click", () => { currentColor = "white"; });
+        document.getElementById("orangeBtn").addEventListener("click", () => { currentColor = "orange"; });
+        document.getElementById("brownBtn").addEventListener("click", () => { currentColor = "brown"; });
+        document.getElementById("redBtn").addEventListener("click", () => { currentColor = "red"; });
+        document.getElementById("greenBtn").addEventListener("click", () => { currentColor = "green"; });
+        document.getElementById("blueBtn").addEventListener("click", () => { currentColor = "blue"; });
+        document.getElementById("yellowBtn").addEventListener("click", () => { currentColor = "yellow"; });
+        document.getElementById("purpleBtn").addEventListener("click", () => { currentColor = "purple"; });
+    
+        // Opacity and Thickness sliders
+        document.getElementById("opacitySelect").addEventListener("input", (e) => {
+            currentOpacity = e.target.value;
+        });
+        document.getElementById("thicknessSelect").addEventListener("input", (e) => {
+            currentThickness = e.target.value;
+        });
+    
+        // Undo and Redo buttons
+        document.getElementById("undoBtn").addEventListener("click", () => {
+            if (shapes.length > 0) {
+                const lastShape = shapes.pop();
+                undoneShapes.push(lastShape);
+                redraw();
+            }
+        });
+        document.getElementById("redoBtn").addEventListener("click", () => {
+            if (undoneShapes.length > 0) {
+                const shapeToRedo = undoneShapes.pop();
+                shapes.push(shapeToRedo);
+                redraw();
+            }
+        });
+    
+        // Clear All button
+        document.getElementById("deleteAllBtn").addEventListener("click", () => {
+            shapes = [];
+            undoneShapes = [];
+            redraw();
+        });
+    
+        // Save button
+        document.getElementById("saveBtn").addEventListener("click", () => {
+            const link = document.createElement("a");
+            link.download = "drawing.png";
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+        });
+    
+        // Share button and panel logic
+        const sharePanel = document.getElementById("sharePanel");
+        const closeShareBtn = document.getElementById("closeShareBtn");
+    
+        document.getElementById("shareBtn").addEventListener("click", () => {
+            sharePanel.classList.add("open");
+        });
+    
+        closeShareBtn.addEventListener("click", () => {
+            sharePanel.classList.remove("open");
+        });
+    
+        document.getElementById("emailShareBtn").addEventListener("click", () => {
+            const dataURL = canvas.toDataURL("image/png");
+            const emailSubject = "Check out my drawing!";
+            const emailBody = `Here is my drawing: <br><br><img src="${dataURL}" />`;
+            window.location.href = `mailto:?subject=${emailSubject}&body=${encodeURIComponent(emailBody)}`;
+        });
+    
+        document.getElementById("linkShareBtn").addEventListener("click", () => {
+            const dataURL = canvas.toDataURL("image/png");
+            const link = document.createElement("input");
+            document.body.appendChild(link);
+            link.value = dataURL;
+            link.select();
+            document.execCommand("copy");
+            document.body.removeChild(link);
+            alert("Link copied to clipboard!");
+        });
+    
+        // Drawing logic
+        canvas.addEventListener("mousedown", (e) => {
+            startX = e.offsetX;
+            startY = e.offsetY;
+            if (currentShape === "pencil") {
+                isFreehandDrawing = true;
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+            } else {
+                isDrawing = true;
+            }
+        });
+    
+        canvas.addEventListener("mousemove", (e) => {
+            if (isFreehandDrawing) {
+                drawFreehandLine(e.offsetX, e.offsetY);
+            }
+        });
+    
+        canvas.addEventListener("mouseup", (e) => {
+            if (isFreehandDrawing) {
+                isFreehandDrawing = false;
+                shapes.push({
+                    type: "freehand",
+                    color: currentColor,
+                    opacity: currentOpacity,
+                    thickness: currentThickness,
+                    points: ctx.getImageData(0, 0, canvas.width, canvas.height)
+                });
+            } else if (isDrawing) {
+                isDrawing = false;
+                const endX = e.offsetX;
+                const endY = e.offsetY;
+    
+                const shapeData = {
+                    type: currentShape,
+                    color: currentColor,
+                    opacity: currentOpacity,
+                    thickness: currentThickness,
+                    startX,
+                    startY,
+                    endX,
+                    endY
+                };
+                shapes.push(shapeData);
+                drawShape(shapeData);
+                undoneShapes = [];
+            }
+        });
+    
+        function drawFreehandLine(x, y) {
+            if (isFreehandDrawing) {
+                ctx.strokeStyle = currentColor;
+                ctx.globalAlpha = currentOpacity;
+                ctx.lineWidth = currentThickness;
+                ctx.lineTo(x, y);
+                ctx.stroke();
+            }
+        }
+    
+        // Function to draw shapes (line, rectangle, circle, heart, star, kite, arrow)
+        function drawShape({ type, color, opacity, thickness, startX, startY, endX, endY }) {
+            ctx.strokeStyle = color;
+            ctx.globalAlpha = opacity;
+            ctx.lineWidth = thickness;
+            ctx.beginPath();
+
+            if (type === "line") {
+               ctx.moveTo(startX, startY);
+               ctx.lineTo(endX, endY);
+            } else if (type === "rectangle") {
+               ctx.rect(startX, startY, endX - startX, endY - startY);
+            } else if (type === "circle") {
+               const radius = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+               ctx.arc(startX, startY, radius, 0, 2 * Math.PI);
+            } else if (type === "heart") {
+               drawHeart(startX, startY, endX, endY);
+            } else if (type === "star") {
+               drawStar(startX, startY, endX, endY);
+            } else if (type === "kite") {
+               drawKite(startX, startY, endX, endY);
+            } else if (type === "arrow") {
+               drawArrow(startX, startY, endX, endY);
+            }
+
+            ctx.stroke();
+            ctx.globalAlpha = 1;
+            ctx.lineWidth = 1;
+        }
+
+        // Function to draw a Heart shape
+        function drawHeart(x, y) {
+            const thicknessFactor = currentThickness * 4; // Adjust size based on thickness
+            const width = thicknessFactor; // Width of the heart
+            const height = thicknessFactor; // Height of the heart
+            const topCurveHeight = height * 0.3; // Height of the top curves
+
+            ctx.beginPath();
+
+            // Start at the bottom tip of the heart
+            ctx.moveTo(x, y + height);
+
+            // Draw left lobe using Bezier curve
+            ctx.bezierCurveTo(
+               x - width / 2, y + height - topCurveHeight, // Control point for left curve
+               x - width / 2, y,                          // Control point for top of the left lobe
+               x, y + height / 3                          // Endpoint at the center top
+            );
+
+            // Draw right lobe using Bezier curve
+            ctx.bezierCurveTo(
+            x + width / 2, y,                          // Control point for top of the right lobe
+            x + width / 2, y + height - topCurveHeight, // Control point for right curve
+            x, y + height                              // Endpoint at the bottom tip
+            );
+
+            ctx.closePath(); // Close the path to form the heart shape
+            ctx.fillStyle = currentColor; // Set the fill color
+            ctx.fill(); // Fill the heart
+        } 
+
+
+        // Function to draw a Star shape
+        function drawStar(x, y) {
+            const points = 5; // Number of points of the star
+            const outerRadius = currentThickness * 3; // Outer radius based on thickness
+            const innerRadius = outerRadius / 2; // Inner radius is half the outer radius
+            const step = Math.PI / points; // Angle between points
+
+            ctx.beginPath();
+            for (let i = 0; i < 2 * points + 1; i++) {
+                const angle = i * step;
+                const radius = i % 2 === 0 ? outerRadius : innerRadius;
+                const pointX = x + radius * Math.cos(angle);
+                const pointY = y - radius * Math.sin(angle);
+                if (i === 0) {
+                   ctx.moveTo(pointX, pointY);
+                } else {
+                   ctx.lineTo(pointX, pointY);
+                }
+            }
+            ctx.closePath();
+            ctx.fillStyle = currentColor; // Set the fill color
+            ctx.fill(); // Fill the star
+        }
+
+
+        // Function to draw a Kite shape
+        function drawKite(x, y) {
+            const kiteWidth = currentThickness * 5;  // Adjust kite width based on thickness
+            const kiteHeight = currentThickness * 7; // Adjust kite height based on thickness
+
+            ctx.beginPath();
+            // Top point to right bottom
+            ctx.moveTo(x, y);
+            ctx.lineTo(x + kiteWidth / 2, y + kiteHeight / 2);
+
+            // Right bottom to left bottom
+            ctx.lineTo(x - kiteWidth / 2, y + kiteHeight / 2);
+
+            // Left bottom back to top
+            ctx.lineTo(x, y);
+
+            // Add the vertical line from top to center bottom
+            ctx.moveTo(x, y);
+            ctx.lineTo(x, y + kiteHeight / 2);
+
+            ctx.strokeStyle = currentColor; // Set the current color for the outline
+            ctx.lineWidth = currentThickness; // Set the line thickness
+            ctx.stroke(); // Draw the kite shape
+        }
+
+
+
+        // Function to draw an Arrow shape
+        function drawArrow(startX, startY, endX, endY) {
+            const arrowHeadLength = 20; // Length of the arrowhead lines
+            const arrowHeadAngle = Math.PI / 12; // Sharper angle for the arrowhead
+            const angle = Math.atan2(endY - startY, endX - startX); // Angle of the arrow line
+
+            // Adjust arrowhead angle based on a fixed value, not thickness
+            const arrowPoint1X = endX - arrowHeadLength * Math.cos(angle - arrowHeadAngle);
+            const arrowPoint1Y = endY - arrowHeadLength * Math.sin(angle - arrowHeadAngle);
+            const arrowPoint2X = endX - arrowHeadLength * Math.cos(angle + arrowHeadAngle);
+            const arrowPoint2Y = endY - arrowHeadLength * Math.sin(angle + arrowHeadAngle);
+
+            ctx.beginPath();
+
+            // Draw the main line of the arrow
+            ctx.moveTo(startX, startY);
+            ctx.lineTo(endX, endY);
+
+            // Draw the left side of the arrowhead
+            ctx.moveTo(endX, endY);
+            ctx.lineTo(arrowPoint1X, arrowPoint1Y);
+
+            // Draw the right side of the arrowhead
+            ctx.moveTo(endX, endY);
+            ctx.lineTo(arrowPoint2X, arrowPoint2Y);
+
+            // Apply styles and stroke the arrow
+            ctx.strokeStyle = currentColor; // Set the color
+            ctx.lineWidth = currentThickness; // Set the thickness
+            ctx.lineCap = 'round'; // Ensure smooth line ends
+            ctx.stroke();
+        }
+
+        function redraw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            shapes.forEach(shape => {
+                if (shape.type === "freehand") {
+                    ctx.putImageData(shape.points, 0, 0);
+                } else {
+                    drawShape(shape);
+                }
+            });
+        }
+   
+        // JavaScript to Change Background  
+        document.getElementById("background1Btn").addEventListener("click", () => {
+            canvas.style.backgroundImage = "url('white.png')";
+            canvas.style.backgroundSize = "cover"; // Optional: ensures it covers the entire canvas area
+        });
+
+        document.getElementById("background2Btn").addEventListener("click", () => {
+            canvas.style.backgroundImage = "url('bg2.jpg')";
+            canvas.style.backgroundSize = "cover"; // Optional: ensures it covers the entire canvas area
+        });
+
+        document.getElementById("background3Btn").addEventListener("click", () => {
+            canvas.style.backgroundImage = "url('bg3.jpg')";
+            canvas.style.backgroundSize = "cover"; // Optional: ensures it covers the entire canvas area
+        });
+
+        // Get the eraser button and canvas context
+        const eraserBtn = document.getElementById("eraserBtn");
+        let isEraserActive = false;
+
+        // Set the eraser size (can be adjusted)
+        const eraserSize =10; 
+
+        // Switch to eraser mode when the button is clicked
+        eraserBtn.addEventListener("click", () => {
+            isEraserActive = !isEraserActive;
+            if (isEraserActive) {
+                eraserBtn.style.border = '2px solid blue'; // Optional: highlight the active button
+            } else {
+                eraserBtn.style.border = 'none'; // Remove highlight when deactivated
+            }
+        });
+
+        // Eraser function to clear the canvas area where the mouse is
+        function erase(e) {
+            if (!isEraserActive) return; // Do nothing if eraser is not active
+
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+
+            // Set the eraser path size
+            ctx.clearRect(mouseX - eraserSize / 2, mouseY - eraserSize / 2, eraserSize, eraserSize);
+        }
+
+        // Track mouse movement and erase on canvas
+        canvas.addEventListener("mousemove", erase);
+
+        // Optionally, you can add a mouseup event to stop erasing when the user releases the mouse button
+        canvas.addEventListener("mouseup", () => {
+            isEraserActive = false;
+            eraserBtn.style.border = 'none'; // Optional: deactivate button when mouse is up
+        });
+
+    </script>
+    
+    </body>
+</html>
